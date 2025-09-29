@@ -325,7 +325,7 @@ class Session:
         else:
             request_body = data
             content_type = None
-
+        # set content type if it isn't set
         # --- Headers --------------------------------------------------------------------------------------------------
         if self.headers is None:
             headers = CaseInsensitiveDict(headers)
