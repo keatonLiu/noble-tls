@@ -45,16 +45,17 @@ def load_asset():
     if not os.path.exists(f'{root_dir()}/dependencies'):
         os.mkdir(f'{root_dir()}/dependencies')
 
-    current_asset, current_version = read_version_info()
-    if not current_asset or not current_version:
-        run_async_task(check_and_download_dependencies())
-        current_asset, current_version = read_version_info()
-        print(f">> Downloaded asset {current_asset} for version {current_version}.")
-
-    asset_name = generate_asset_name(version=current_version)
+    asset_name = generate_asset_name()
+    asset_name = "-".join(asset_name.split('-')[:-1])
     asset_path = f'{root_dir()}/dependencies/{asset_name}'
+    for file in os.listdir(f'{root_dir()}/dependencies'):
+        if file.startswith(asset_name):
+            asset_path = f'{root_dir()}/dependencies/{file}'
+            asset_name = os.path.basename(asset_path)
+            break
+    print(f">> Loading asset {asset_path}...")
     if not os.path.exists(asset_path):
-        raise TLSClientException(f"Unable to find asset {asset_name} for version {current_version}.")
+        raise TLSClientException(f"Unable to find asset {asset_name}.")
 
     return asset_name
 
