@@ -27,7 +27,8 @@ def get_distro():
 
 def generate_asset_name(
         custom_part: str = 'tls-client',
-        version: str = '1.7.4'
+        version: str = '1.7.4',
+        with_xgo: bool = False,
 ) -> str:
     """
     Generates an asset name based on the current platform and architecture, including handling for x86 architectures.
@@ -65,6 +66,8 @@ def generate_asset_name(
             if distro_name.lower() in {"ubuntu", "debian"}:
                 system_os = f"{system_os}-ubuntu"
 
+    if with_xgo:
+        return f"{custom_part}-xgo-{version}-{system_os}-{asset_arch}{file_extension}"
     return f"{custom_part}-{system_os}-{asset_arch}-{version}{file_extension}"
 
 

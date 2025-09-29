@@ -134,12 +134,17 @@ async def download_if_necessary():
     if os.path.exists(f'{root_directory}/dependencies/{asset_name}'):
         return
 
-    download_url = [asset['browser_download_url'] for asset in asset_url if asset['name'] == asset_name]
-    if len(download_url) == 0:
-        raise TLSClientException(f"Unable to find asset {asset_name} for version {version_num}.")
+    asset_name_xgo = generate_asset_name(custom_part=repo, version=version_num, with_xgo=True)
+    if os.path.exists(f'{root_directory}/dependencies/{asset_name_xgo}'):
+        return
 
-    download_url = download_url[0]
-    await download_and_save_asset(download_url, asset_name, version_num)
+    for asset in asset_url:
+        if asset['name'] == asset_name:
+            return await download_and_save_asset(asset['browser_download_url'], asset_name, version_num)
+        if asset['name'] == asset_name_xgo:
+            return await download_and_save_asset(asset['browser_download_url'], asset_name_xgo, version_num)
+
+    raise TLSClientException(f"Version {version_num} does not have asset {asset_name} or {asset_name_xgo}.")
 
 
 async def update_if_necessary():
