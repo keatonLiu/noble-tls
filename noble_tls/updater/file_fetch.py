@@ -48,6 +48,9 @@ async def get_latest_release() -> Tuple[str, list]:
             'Accept': 'application/vnd.github.v3+json',
             'User-Agent': 'noble-tls'
         }
+        if GITHUB_TOKEN:
+            headers["Authorization"] = f"token {GITHUB_TOKEN}"
+            print(">> Using GitHub token for authentication.")
         response = await client.get(url, headers=headers)
 
     # Check if the request was successful
