@@ -383,6 +383,7 @@ class Session:
                 "isByteRequest": is_byte_request,
                 "isByteResponse": is_byte_response,
                 "additionalDecode": self.additional_decode,
+                "withCustomCookieJar": True,
                 "proxyUrl": proxy,
                 "requestUrl": url,
                 "requestMethod": method,
