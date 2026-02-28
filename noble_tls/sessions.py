@@ -330,7 +330,7 @@ class Session:
         if self.headers is None:
             headers = CaseInsensitiveDict(headers)
         elif headers is None:
-            headers = self.headers
+            headers = self.headers.copy()
         else:
             merged_headers = CaseInsensitiveDict(self.headers)
             merged_headers.update(headers)
