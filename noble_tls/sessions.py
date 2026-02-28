@@ -236,11 +236,9 @@ class Session:
                 del merged_headers[key]
             headers = merged_headers
 
-        # set content type if it isn't set
         if content_type is not None and "content-type" not in headers:
             headers["Content-Type"] = content_type
 
-        # --- Cookies --------------------------------------------------------------------------------------------------
         cookies = cookies or {}
         cookies = merge_cookies(self.cookies, cookies)
         # Strip quotes from cookie values — fhttp in Go doesn't accept them
